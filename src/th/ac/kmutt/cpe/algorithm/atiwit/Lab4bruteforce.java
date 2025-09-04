@@ -17,16 +17,29 @@ public class Lab4bruteforce {
         int n_text = text.length();
         int ans = 0;
 
+        ArrayList<Integer> posA = new ArrayList<>();
+        ArrayList<Integer> posB = new ArrayList<>();
+
         for (int i = 0; i < n_text; i++) {
-            if (text.charAt(i) == A) {
-                for (int j = i + 1; j < n_text; j++) {
-                    if (text.charAt(j) == B && (j - i + 1) >= p) { // เช็คว่าต้องให้มากกว่าหรือเท่ากับ p
-                        ans++;
-                    }
+            if (text.charAt(i) == A)
+                posA.add(i);
+            if (text.charAt(i) == B)
+                posB.add(i);
+        }
+
+        SearchContext<Integer> context = new SearchContext<Integer>(new LinearSearch<Integer>());
+
+        for (int i : posA) {
+            for (int j : posB) {
+                int idx = context.executeSearch(posB, j);
+                if (idx != -1 && j > i && (j - i + 1) >= p) {
+                    ans++;
                 }
             }
         }
+
         System.out.println(ans);
+        sc.close();
     }
 
 }
